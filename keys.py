@@ -54,6 +54,13 @@ SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
 SPREADSHEET_NAME = os.getenv("SPREADSHEET_NAME")
 SPREADSHEET_RANGE = SPREADSHEET_NAME + "!" + os.getenv("SPREADSHEET_RANGE")
 
+def fetch_spreadsheet_values(sheet):
+    return (
+        sheet.values()
+        .get(spreadsheetId=SPREADSHEET_ID, range=SPREADSHEET_RANGE)
+        .execute().get("values", [])
+    )
+
 def main():
     """Shows basic usage of the Sheets API.
     Prints values from a sample spreadsheet.
@@ -64,12 +71,7 @@ def main():
 
         # First fetch the current sheet values
         sheet = service.spreadsheets()
-        result = (
-            sheet.values()
-            .get(spreadsheetId=SPREADSHEET_ID, range=SPREADSHEET_RANGE)
-            .execute()
-        )
-        values = result.get("values", [])
+        values = fetch_spreadsheet_values(sheet)
 
         if not values:
             print("No data found.")
@@ -145,7 +147,7 @@ def main():
 
         if not values:
             # if we made any updates, re-fetch the sheet data
-            values = result.get("values", [])
+            values = fetch_spreadsheet_values(sheet)
 
         values = list(ListGame(row) for row in values[1:] if row[0])
 
