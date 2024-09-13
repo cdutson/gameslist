@@ -46,7 +46,8 @@ def write_game(f: TextIOWrapper, game: ListGame):
     if game.cover:
         image_path = downloader.fetch_image(game.cover)
     desc = game.description if game.description else ""
-    title = game.title
+    title = f"{game.title}{" - " + game.notes if game.notes else ''}"
+
     provider = game.provider if game.provider else ""
 
     f.write('        <div class="game">\n')
