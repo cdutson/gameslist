@@ -2,18 +2,18 @@ name: Deploy games pages
 on:
   workflow_dispatch:
   schedule:
-      - cron: "20 */3 * * *"
+    - cron: "20 */3 * * *"
 permissions:
   contents: read
   id-token: write
   pages: write
 
 concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
   cancel-in-progress: true
 
 env:
-  MOBY_API_KEY: '${{ secrets.MOBY_API_KEY }}'
+  MOBY_API_KEY: "${{ secrets.MOBY_API_KEY }}"
 
 jobs:
   do-the-thing:
@@ -29,21 +29,21 @@ jobs:
       - name: PIP Dependencies
         run: pip install -r requirements.txt
       - name: Google Authentication
-        uses: 'google-github-actions/auth@v2'
+        uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: '${{ secrets.GOOGLE_AUTH }}'
+          credentials_json: "${{ secrets.GOOGLE_AUTH }}"
       - name: Create schedule file
         run: python schedule.py
         env:
-          SPREADSHEET_ID: '${{ vars.SCHEDULE_SPREADSHEET_ID }}'
-          SPREADSHEET_NAME: '${{ vars.SCHEDULE_SPREADSHEET_NAME }}'
-          SPREADSHEET_RANGE: '${{ vars.SCHEDULE_SPREADSHEET_RANGE }}'
+          SPREADSHEET_ID: "${{ vars.SCHEDULE_SPREADSHEET_ID }}"
+          SPREADSHEET_NAME: "${{ vars.SCHEDULE_SPREADSHEET_NAME }}"
+          SPREADSHEET_RANGE: "${{ vars.SCHEDULE_SPREADSHEET_RANGE }}"
       - name: Create giveaway file
         run: python keys.py
         env:
-          SPREADSHEET_ID: '${{ vars.GIVEAWAY_SPREADSHEET_ID }}'
-          SPREADSHEET_NAME: '${{ vars.GIVEAWAY_SPREADSHEET_NAME }}'
-          SPREADSHEET_RANGE: '${{ vars.GIVEAWAY_SPREADSHEET_RANGE }}'
+          GIVEAWAY_SPREADSHEET_ID: "${{ vars.GIVEAWAY_SPREADSHEET_ID }}"
+          GIVEAWAY_SPREADSHEET_NAME: "${{ vars.GIVEAWAY_SPREADSHEET_NAME }}"
+          GIVEAWAY_SPREADSHEET_RANGE: "${{ vars.GIVEAWAY_SPREADSHEET_RANGE }}"
       - name: Create deployment package
         run: |
           mkdir site

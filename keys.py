@@ -37,6 +37,7 @@ def write_game(f: TextIOWrapper, game: ListGame):
     notes = f' - {game.notes}' if game.notes else ""
 
     f.write('        <div class="game">\n')
+    f.write('        <div class="imageWrapper">\n')
     if image_path:
         f.write(
             f'          <div class="realimage" style="background-image: url({image_path})"></div>\n'
@@ -44,15 +45,16 @@ def write_game(f: TextIOWrapper, game: ListGame):
     else:
         f.write('          <div class="fakeimage">?</div>\n')
     f.write(f"          <h3>{game.title}{notes}</h3>\n")
+    f.write('</div>\n')
     f.write(f'          <div class="platform"><b>Platform:</b> {game.platform}</div>\n')
     f.write(f'          <div class="keycount"><b># of keys:</b> {game.count}</div>\n')
     f.write(f'          <div class="description">{desc}</div>')
     f.write("        </div>\n")
 
 # The ID and range of a sample spreadsheet.
-SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
-SPREADSHEET_NAME = os.getenv("SPREADSHEET_NAME")
-SPREADSHEET_RANGE = SPREADSHEET_NAME + "!" + os.getenv("SPREADSHEET_RANGE")
+SPREADSHEET_ID = os.getenv("GIVEAWAY_SPREADSHEET_ID")
+SPREADSHEET_NAME = os.getenv("GIVEAWAY_SPREADSHEET_NAME")
+SPREADSHEET_RANGE = SPREADSHEET_NAME + "!" + os.getenv("GIVEAWAY_SPREADSHEET_RANGE")
 
 def fetch_spreadsheet_values(sheet):
     return (

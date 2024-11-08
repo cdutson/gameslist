@@ -51,13 +51,16 @@ def write_game(f: TextIOWrapper, game: ListGame):
     provider = game.provider if game.provider else ""
 
     f.write('        <div class="game">\n')
+    f.write('        <div class="imageWrapper">\n')
     if image_path:
         f.write(
             f'          <div class="realimage" style="background-image: url({image_path})"></div>\n'
         )
     else:
-        f.write('          <div class="fakeimage">?</div>\n')
+        f.write('          <div class="fakeimage">?</div>\n')    
     f.write(f"          <h3>{title}</h3>\n")
+    f.write('</div>\n')
+
     if game.started and not game.completed:
         f.write(f'          <div class="votes"><b>Started:</b> {game.started}</div>\n')
     if game.completed:
@@ -68,7 +71,7 @@ def write_game(f: TextIOWrapper, game: ListGame):
         )
         pass
     else:
-        f.write('          <div class="votes">Streamer chosen</div>')
+        f.write(f'          <div class="votes"><b>Streamer chosen</b>{f' <span class=\"votesreal\">({game.votes} vote{'' if game.votes == 1 else 's'})</span>' if game.votes else ''}</div>')
     if game.provider:
         f.write(f'          <div class="provider"><b>Provider:</b> {provider}</div>')
     f.write(f'          <div class="description">{desc}</div>')
