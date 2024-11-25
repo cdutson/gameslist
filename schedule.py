@@ -202,7 +202,8 @@ def main():
         current_list: List[ListGame] = list(g for g in values if g.started and not g.completed)
         completed_list: List[ListGame] = list(g for g in values if g.completed)
 
-        weight = (len([x for x in current_list if x.streamer_selected]) * -1) + len([x for x in current_list if not x.streamer_selected])
+        # weight = (len([x for x in current_list if x.streamer_selected]) * -1) + len([x for x in current_list if not x.streamer_selected])
+        weight = sum(-1 if x.streamer_selected else 1 for x in current_list)
 
         first_list = pleb_chosen if weight < 1 else god_chosen
         second_list = god_chosen if weight < 1 else pleb_chosen
