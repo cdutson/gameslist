@@ -28,6 +28,7 @@ class ListGame:
             self.date_suggested = "2000-01-01"
         else:
             self.date_suggested = row[3]
+        
         self.attribution = None if len(row) <= 4 else row[4]
         self.provider = None if len(row) <= 5 else row[5]
         self.notes = None if len(row) <= 6 else row[6]
@@ -37,6 +38,8 @@ class ListGame:
         self.override_id = None if len(row) <= 10 else row[10]
         self.cover = "" if len(row) <= 11 else row[11]
         self.description = "" if len(row) <= 12 else row[12]
+        self.official_url = "" if len(row) <= 13 else row [13]
+        self.on_hold = None if len(row) <= 14 else row[14]
 
     def __repr__(self):
         return f"{self.title} - {self.votes} - {self.streamer_selected}"
@@ -57,8 +60,11 @@ def write_game(f: TextIOWrapper, game: ListGame):
             f'          <div class="realimage" style="background-image: url({image_path})"></div>\n'
         )
     else:
-        f.write('          <div class="fakeimage">?</div>\n')    
-    f.write(f"          <h3>{title}</h3>\n")
+        f.write('          <div class="fakeimage">?</div>\n')
+    if game.official_url:
+        f.write(f"          <h3><a href='{game.official_url}' target='_blank'>{title}</a></h3>\n")
+    else:
+        f.write(f"          <h3>{title}</h3>\n")
     f.write('</div>\n')
 
     if game.started and not game.completed:
@@ -78,9 +84,14 @@ def write_game(f: TextIOWrapper, game: ListGame):
     f.write("        </div>\n")
 
 
-def write_list(f:TextIOWrapper, game_list: List[ListGame], title: str):
+def write_list(f:TextIOWrapper, game_list: List[ListGame], title: str, description: str):
     f.write(f"    <h2>{title}</h2>\n")
+    
+    if description:
+        f.write(f"    <p>{description}</p>")
+
     f.write('    <div class="gamelist">\n')
+    
     for game in game_list:
         write_game(f, game)
     f.write("    </div>\n")
@@ -149,6 +160,7 @@ def main():
                         "description": "",
                         "title": row[0],
                         "sample_cover": {"image": None},
+                        "official_url": ""
                     }
 
                 updates.append(
@@ -166,6 +178,7 @@ def main():
                                 game["game_id"],
                                 game["sample_cover"]["image"],
                                 game["description"],
+                                game["official_url"]
                             ]
                         ],
                     }
@@ -197,12 +210,12 @@ def main():
         )
 
         # sort the data
-        god_chosen = list(g for g in values if g.streamer_selected and not g.started and not g.completed)
-        pleb_chosen = list(g for g in values if not g.streamer_selected and not g.started and not g.completed)
-        current_list: List[ListGame] = list(g for g in values if g.started and not g.completed)
-        completed_list: List[ListGame] = list(g for g in values if g.completed)
+        god_chosen = list(g for g in values if g.streamer_selected and not g.started and not g.completed and not g.on_hold)
+        pleb_chosen = list(g for g in values if not g.streamer_selected and not g.started and not g.completed and not g.on_hold)
+        on_hold_list = list(g for g in values if g.on_hold)
+        current_list: List[ListGame] = list(g for g in values if g.started and not g.completed and not g.on_hold)
+        completed_list: List[ListGame] = list(g for g in values if g.completed and not g.on_hold)
 
-        # weight = (len([x for x in current_list if x.streamer_selected]) * -1) + len([x for x in current_list if not x.streamer_selected])
         weight = sum(-1 if x.streamer_selected else 1 for x in current_list)
 
         first_list = pleb_chosen if weight < 1 else god_chosen
@@ -246,12 +259,15 @@ def main():
                     "     <p>Here's a list of all the voted games in the schedule.</p>\n"])
             
             if current_list:
-                write_list(f, current_list, "Current Games")
+                write_list(f, current_list, "Current Games", "What I'm playing right now.")
+            
+            write_list(f, final_list, "Upcoming Games", "What's coming up!")
 
-            write_list(f, final_list, "Upcoming Games")
+            if on_hold_list:
+                write_list(f, on_hold_list, "On hold", "Can't play yet, but will be shoved into the schedule when it's possible.")
 
             if completed_list:
-                write_list(f, completed_list, "Completed Games")
+                write_list(f, completed_list, "Completed Games", "This is a non-exhaustive list, trust me.")
 
 
             f.writelines(["  <footer><p>Data provided by <a target='_blank' href='https://www.mobygames.com/'>MobyGames</a></p></footer></body>\n", "</html>\n"])
