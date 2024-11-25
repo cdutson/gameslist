@@ -197,8 +197,8 @@ def main():
         )
 
         # sort the data
-        god_chosen = list(g for g in values if g.streamer_selected and not g.started)
-        pleb_chosen = list(g for g in values if not g.streamer_selected and not g.started)
+        god_chosen = list(g for g in values if g.streamer_selected and not g.started and not g.completed)
+        pleb_chosen = list(g for g in values if not g.streamer_selected and not g.started and not g.completed)
         current_list: List[ListGame] = list(g for g in values if g.started and not g.completed)
         completed_list: List[ListGame] = list(g for g in values if g.completed)
 
