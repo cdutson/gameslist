@@ -197,34 +197,28 @@ def main():
         )
 
         # sort the data
-        god_chosen = list(g for g in values if g.streamer_selected)
-        pleb_chosen = list(g for g in values if not g.streamer_selected)
+        god_chosen = list(g for g in values if g.streamer_selected and not g.started)
+        pleb_chosen = list(g for g in values if not g.streamer_selected and not g.started)
+        current_list: List[ListGame] = list(g for g in values if g.started and not g.completed)
+        completed_list: List[ListGame] = list(g for g in values if g.completed)
+
+        weight = (len([x for x in current_list if x.streamer_selected]) * -1) + len([x for x in current_list if not x.streamer_selected])
+
+        first_list = pleb_chosen if weight < 1 else god_chosen
+        second_list = god_chosen if weight < 1 else pleb_chosen
 
         final_list: List[ListGame] = list()
-        completed_list: List[ListGame] = list()
-        current_list: List[ListGame] = list()
-
-        while god_chosen or pleb_chosen:
+        
+        while first_list or second_list:
             # first pull an item from god list
-            if god_chosen:
-                g = god_chosen.pop(0)
-                # but only if not completed
-                if g.started and not g.completed:
-                    current_list.append(g)
-                elif g.completed:
-                    completed_list.append(g)
-                else:
-                    final_list.append(g)
+            if first_list:
+                g = first_list.pop(0)
+                final_list.append(g)
 
             # same thing, but pleb
-            if pleb_chosen:
-                g = pleb_chosen.pop(0)
-                if g.started and not g.completed:
-                    current_list.append(g)
-                elif g.completed:
-                    completed_list.append(g)
-                else:
-                    final_list.append(g)
+            if second_list:
+                g = second_list.pop(0)
+                final_list.append(g)
         
         current_list.sort(key=lambda r: r.started)
         completed_list.sort(key=lambda r: r.completed)
