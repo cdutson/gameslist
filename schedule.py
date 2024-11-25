@@ -207,9 +207,13 @@ def main():
 
         first_list = pleb_chosen if weight < 1 else god_chosen
         second_list = god_chosen if weight < 1 else pleb_chosen
-
         final_list: List[ListGame] = list()
-        
+
+        if weight != 0:
+            position = abs(weight) - 1
+            top_of_list, first_list = first_list[:position], first_list[position:]
+            final_list = final_list + top_of_list
+
         while first_list or second_list:
             # first pull an item from god list
             if first_list:
