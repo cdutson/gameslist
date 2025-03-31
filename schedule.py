@@ -210,33 +210,10 @@ def main():
         )
 
         # sort the data
-        god_chosen = list(g for g in values if g.streamer_selected and not g.started and not g.completed and not g.on_hold)
-        pleb_chosen = list(g for g in values if not g.streamer_selected and not g.started and not g.completed and not g.on_hold)
+        to_play_list = list(g for g in values if not g.started and not g.completed and not g.on_hold)
         on_hold_list = list(g for g in values if g.on_hold)
         current_list: List[ListGame] = list(g for g in values if g.started and not g.completed and not g.on_hold)
         completed_list: List[ListGame] = list(g for g in values if g.completed and not g.on_hold)
-
-        weight = sum(-1 if x.streamer_selected else 1 for x in current_list)
-
-        first_list = pleb_chosen if weight < 1 else god_chosen
-        second_list = god_chosen if weight < 1 else pleb_chosen
-        final_list: List[ListGame] = list()
-
-        if weight != 0:
-            position = abs(weight) - 1
-            top_of_list, first_list = first_list[:position], first_list[position:]
-            final_list = final_list + top_of_list
-
-        while first_list or second_list:
-            # first pull an item from god list
-            if first_list:
-                g = first_list.pop(0)
-                final_list.append(g)
-
-            # same thing, but pleb
-            if second_list:
-                g = second_list.pop(0)
-                final_list.append(g)
         
         current_list.sort(key=lambda r: r.started)
         completed_list.sort(key=lambda r: r.completed)
@@ -261,7 +238,7 @@ def main():
             if current_list:
                 write_list(f, current_list, "Current Games", "What I'm playing right now.")
             
-            write_list(f, final_list, "Upcoming Games", "What's coming up!")
+            write_list(f, to_play_list, "Upcoming Games", "What's coming up!")
 
             if on_hold_list:
                 write_list(f, on_hold_list, "On hold", "Can't play yet, but will be shoved into the schedule when it's possible.")
