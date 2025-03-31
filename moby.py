@@ -36,8 +36,8 @@ class MobyGames:
         limit_time = now - 2
 
         if self.last_call > limit_time:
-            print("Sleeping to respect MobyGames API rate limit...")
-            time.sleep(1)
+            print("Sleeping to respect MobyGames API rate limit of 0.2 requests /second (5 seconds cap)...")
+            time.sleep(6)
 
         self.last_call = time.time()
 
