@@ -159,7 +159,7 @@ def main():
                         "game_id": "unknown",
                         "description": "",
                         "title": row[0],
-                        "covers": {"image": None},
+                        "covers": None,
                         "official_url": ""
                     }
 
@@ -173,7 +173,7 @@ def main():
                 imgUrl = None
 
                 try:
-                    imgUrl = game["covers"][0]["images"][0]
+                    imgUrl = game["covers"][0]["images"][0]["image_url"]
                 except:
                     imgUrl = None
 

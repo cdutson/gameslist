@@ -115,7 +115,7 @@ def main():
                         "game_id": "unknown",
                         "description": "",
                         "title": row[0],
-                        "sample_cover": {"image": None},
+                        "covers": None,
                     }
 
                 updates.append(
@@ -125,7 +125,7 @@ def main():
                     }
                 )
                 try:
-                    imgUrl = game["covers"][0]["images"][0]
+                    imgUrl = game["covers"][0]["images"][0]["image_url"]
                 except:
                     imgUrl = None
 
