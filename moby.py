@@ -6,7 +6,7 @@ from typing import List, Dict
 
 
 class MobyGames:
-    base_url = "https://api.mobygames.com/v1"
+    base_url = "https://api.mobygames.com/v2"
 
     def __init__(self):
         self.api_key = os.getenv("MOBY_API_KEY")
@@ -16,7 +16,7 @@ class MobyGames:
 
     def get_games_for_title(self, title) -> List[Dict]:
         arg = {
-            "format": "normal",
+            "include": "title,description,official_url,covers",
             "title": title,
         }
 
@@ -25,11 +25,18 @@ class MobyGames:
 
     def get_game_for_id(self, id) -> List[Dict]:
         arg = {
-            "format": "normal",
+            "include": "title,description,official_url,covers",
+            "id": id
         }
 
-        results = self.make_api_call("GET", f"/games/{id}", arg)
-        return results
+        results = self.make_api_call("GET", f"/games", arg)
+        gameData = None
+        try:
+            gameData = results["games"][0]
+        except:
+            gameData = None
+
+        return gameData
 
     def make_api_call(self, method, url, args):
         now = time.time()

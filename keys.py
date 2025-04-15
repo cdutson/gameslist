@@ -124,6 +124,11 @@ def main():
                         "values": [[game["title"]]],
                     }
                 )
+                try:
+                    imgUrl = game["covers"][0]["images"][0]
+                except:
+                    imgUrl = None
+
                 updates.append(
                     {
                         "range": f"{SPREADSHEET_NAME}!F{row_num}",
@@ -131,7 +136,7 @@ def main():
                             [
                                 game["game_id"],
                                 game["game_id"],
-                                game["sample_cover"]["image"],
+                                imgUrl,
                                 game["description"],
                             ]
                         ],

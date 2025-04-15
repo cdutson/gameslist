@@ -159,7 +159,7 @@ def main():
                         "game_id": "unknown",
                         "description": "",
                         "title": row[0],
-                        "sample_cover": {"image": None},
+                        "covers": {"image": None},
                         "official_url": ""
                     }
 
@@ -169,6 +169,14 @@ def main():
                         "values": [[game["title"]]],
                     }
                 )
+
+                imgUrl = None
+
+                try:
+                    imgUrl = game["covers"][0]["images"][0]
+                except:
+                    imgUrl = None
+
                 updates.append(
                     {
                         "range": f"{SPREADSHEET_NAME}!J{row_num}",
@@ -176,7 +184,7 @@ def main():
                             [
                                 game["game_id"],
                                 game["game_id"],
-                                game["sample_cover"]["image"],
+                                imgUrl,
                                 game["description"],
                                 game["official_url"]
                             ]
