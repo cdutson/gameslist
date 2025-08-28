@@ -239,7 +239,7 @@ def main():
             
             comma_list = comma_list[:-3]
 
-            t.write(comma_list)
+            t.write(f"{comma_list}. Last updated {now_stamp}")
 
         with open("schedule.html", "w", encoding="utf-8") as f:
             f.writelines(
