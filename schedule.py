@@ -229,6 +229,18 @@ def main():
         now = datetime.now(UTC)
         now_stamp = now.strftime('%b {}, %Y at {}:%M:%S').format(now.day, now.hour)
 
+        schedule_subset = to_play_list[0:10]
+
+        with open("schedule.txt", "w", encoding="utf-8") as t:
+            comma_list = f"Next {len(schedule_subset)} games: "
+
+            for game in schedule_subset:
+                comma_list += f"{game.title} | "
+            
+            comma_list = comma_list[:-3]
+
+            t.write(comma_list)
+
         with open("schedule.html", "w", encoding="utf-8") as f:
             f.writelines(
                 [
