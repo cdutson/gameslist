@@ -224,7 +224,7 @@ def main():
         completed_list: List[ListGame] = list(g for g in values if g.completed and not g.on_hold)
         
         current_list.sort(key=lambda r: r.started)
-        completed_list.sort(key=lambda r: r.completed)
+        completed_list.sort(key=lambda r: r.completed, reverse=True)
 
         now = datetime.now(UTC)
         now_stamp = now.strftime('%b {}, %Y at {}:%M:%S').format(now.day, now.hour)
