@@ -36,7 +36,7 @@ def write_game(f: TextIOWrapper, game: ListGame):
     desc = game.description if game.description else ""
     notes = f' - {game.notes}' if game.notes else ""
 
-    f.write('        <div class="game">\n')
+    f.write('        <li class="game">\n')
     f.write('        <div class="imageWrapper">\n')
     if image_path:
         f.write(
@@ -49,7 +49,7 @@ def write_game(f: TextIOWrapper, game: ListGame):
     f.write(f'          <div class="platform"><b>Platform:</b> {game.platform}</div>\n')
     f.write(f'          <div class="keycount"><b># of keys:</b> {game.count}</div>\n')
     f.write(f'          <div class="description">{desc}</div>')
-    f.write("        </div>\n")
+    f.write("        </li>\n")
 
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = os.getenv("GIVEAWAY_SPREADSHEET_ID")
@@ -184,13 +184,13 @@ def main():
                     "    <h1>Available Keys</h1>\n",
                     f"    <p>Last updated: {now_stamp} UTC</p>\n",
                     '    <p>If you want a game key, all you have to do is come by a stream (<a href="https://twitch.tv/cdutson">https://twitch.tv/cdutson</a>) and redeem a free game using channel points!</p>\n'
-                    '    <div class="gamelist">\n',
+                    '    <uk class="gamelist">\n',
                 ]
             )
 
             for game in values:
                 write_game(f, game)
-            f.write("    </div>\n")
+            f.write("    </uk>\n")
 
             f.writelines(["  <footer><p>Data provided by <a target='_blank' href='https://www.mobygames.com/'>MobyGames</a></p></footer></body>\n", "</html>\n"])
 

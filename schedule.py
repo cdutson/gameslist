@@ -53,7 +53,7 @@ def write_game(f: TextIOWrapper, game: ListGame):
 
     provider = game.provider if game.provider else ""
 
-    f.write('        <div class="game">\n')
+    f.write('        <li class="game">\n')
     f.write('        <div class="imageWrapper">\n')
     if image_path:
         f.write(
@@ -81,20 +81,24 @@ def write_game(f: TextIOWrapper, game: ListGame):
     if game.provider:
         f.write(f'          <div class="provider"><b>Provider:</b> {provider}</div>')
     f.write(f'          <div class="description">{desc}</div>')
-    f.write("        </div>\n")
+    f.write("        </li>\n")
 
 
 def write_list(f:TextIOWrapper, game_list: List[ListGame], title: str, description: str):
+    f.write(f"    <section>\n")
+
     f.write(f"    <h2>{title}</h2>\n")
     
     if description:
         f.write(f"    <p>{description}</p>")
 
-    f.write('    <div class="gamelist">\n')
+    f.write('    <ul class="gamelist">\n')
     
     for game in game_list:
         write_game(f, game)
-    f.write("    </div>\n")
+    f.write("    </ul>\n")
+    f.write(f"   </section>\n")
+
 
 
 SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
