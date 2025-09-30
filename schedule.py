@@ -262,7 +262,7 @@ def main():
                 write_list(f, current_list, "Current Games", "What I'm playing right now.")
             
             if on_hold_list:
-                write_list(f, on_hold_list, "On hold", "Can't play yet, or in a holding pattern for some reason.")
+                write_list(f, on_hold_list, "On hold", "I can't play these yet or they're in a holding pattern for some reason.")
 
             write_list(f, to_play_list, "Upcoming Games", "What's coming up!")
 
