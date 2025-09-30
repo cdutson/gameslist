@@ -12,7 +12,24 @@ body {
   padding: 0px 10px;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+h1 {
+  font-size: 40px;
+}
+
 h2 {
+  font-size: 26px;
   margin-bottom: 5px;
 }
 

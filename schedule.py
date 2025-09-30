@@ -249,19 +249,22 @@ def main():
                     "  <head>\n",
                     "    <title>Upcoming Games List</title>\n",
                     '    <link rel="stylesheet" href="style.css"></link>\n',
+                    '    <link rel="preconnect" href="https://fonts.googleapis.com">\n',
+                    '    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n',
+                    '    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">\n',
                     "  </head>\n",
                     "  <body>\n",
                     "     <h1>Games list</h1>\n",
                     f"    <p>Last updated: {now_stamp} UTC</p>\n",
-                    "     <p>Here's a list of all the voted games in the schedule.</p>\n"])
+                    "     <p>Here you can find all the games I have played, am playing, and will be playing soon.</p>\n"])
             
             if current_list:
                 write_list(f, current_list, "Current Games", "What I'm playing right now.")
             
-            write_list(f, to_play_list, "Upcoming Games", "What's coming up!")
-
             if on_hold_list:
-                write_list(f, on_hold_list, "On hold", "Can't play yet, but will be shoved into the schedule when it's possible.")
+                write_list(f, on_hold_list, "On hold", "Can't play yet, or in a holding pattern for some reason.")
+
+            write_list(f, to_play_list, "Upcoming Games", "What's coming up!")
 
             if completed_list:
                 write_list(f, completed_list, "Completed Games", "This is a non-exhaustive list, trust me.")
