@@ -182,7 +182,7 @@ def main():
                     "  </head>\n",
                     "  <body>\n",
                     "    <h1>Available Keys</h1>\n",
-                    f"    <p>Last updated: {now_stamp} UTC</p>\n",
+                    f"    <p><em>Last updated: {now_stamp} UTC</em></p>\n",
                     '    <p>If you want a game key, all you have to do is come by a stream (<a href="https://twitch.tv/cdutson">https://twitch.tv/cdutson</a>) and redeem a free game using channel points!</p>\n'
                     '    <uk class="gamelist">\n',
                 ]

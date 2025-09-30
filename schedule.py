@@ -259,7 +259,7 @@ def main():
                     "  </head>\n",
                     "  <body>\n",
                     "     <h1>Games list</h1>\n",
-                    f"    <p>Last updated: {now_stamp} UTC</p>\n",
+                    f"    <p><em>Last updated: {now_stamp} UTC</em></p>\n",
                     "     <p>Here you can find all the games I have played, am playing, and will be playing soon.</p>\n"])
             
             if current_list:

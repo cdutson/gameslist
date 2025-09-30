@@ -41,6 +41,10 @@ a {
   color: #ffffff;
 }
 
+section {
+  margin-bottom: 40px;
+}
+
 .gamelist {
   display: flex;
   flex-wrap: wrap;
