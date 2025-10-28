@@ -251,7 +251,7 @@ def main():
                     "<!doctype html>\n",
                     "<html>\n",
                     "  <head>\n",
-                    "    <title>Upcoming Games List</title>\n",
+                    "    <title>CDutson's schedule of games to stream</title>\n",
                     '    <link rel="stylesheet" href="style.css"></link>\n',
                     '    <link rel="preconnect" href="https://fonts.googleapis.com">\n',
                     '    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n',
